@@ -312,7 +312,7 @@ function renderIntroB() {
   app.append(el(`<section class="card">
     <span class="eyebrow">Part 2 of 4 · 10 replies</span><h2>How is the customer reacting?</h2>
     <p>You will see one agent message and the customer's reply to it. Decide whether the reply shows the customer is
-      <b>unhappy</b> and whether it shows they are <b>pleased</b> (it can be neither) with <b>how the agent communicated or behaved</b>: its tone,
+      <b>unhappy</b>, <b>pleased</b> or <b>neutral</b> about <b>how the agent communicated or behaved</b>: its tone,
       length, format, whether it asked first, gave options, explained itself, and so on.</p>
     <div class="grid2" style="align-items:start">
       <div><p><b>Signs of being unhappy</b> can be subtle. The reply might:</p>
@@ -329,7 +329,7 @@ function renderIntroB() {
           <li><b>engaging more readily</b>, moving smoothly and happily to the next thing.</li>
         </ul></div>
     </div>
-    <p>Plain cooperation (“Sure, it's ABC123.”, “Yes, go ahead.”) with nothing extra is <b>neither</b> unhappy nor pleased, unless it feels noticeably
+    <p>Plain cooperation (“Sure, it's ABC123.”, “Yes, go ahead.”) with nothing extra is <b>neutral</b>, unless it feels noticeably
       colder or warmer than a normal reply. Feelings about the <b>situation</b> don't count: a refused refund, a full flight, a fee.</p>
     <p><b>Hint or outright?</b> When the customer is unhappy, a <b>question</b> or tone change is a hint. An <b>instruction or complaint</b> about
       how the agent communicates is outright, because it names what should change.</p>
@@ -341,16 +341,16 @@ function renderIntroB() {
     <div class="example"><span class="eyebrow">Four examples</span>
       <div class="quote">Agent: Seat selection fees depend on your fare class, membership tier, route, and whether the seat is in an exit row or a preferred zone…
 Customer: So is it free or not?</div>
-      <p>Unhappy: <b>Yes</b> (re-asks for the plain answer). Pleased: <b>No</b>. Outright: <b>No</b>. About: <b>Length</b>.</p>
+      <p>Seems: <b>Unhappy</b> (re-asks for the plain answer). Outright: <b>No</b>. About: <b>Length</b>.</p>
       <div class="quote">Agent: Here's everything I did today: • changed the date • updated the seat • emailed the receipt
 Customer: No need for the bullet list, just tell me in a sentence.</div>
-      <p>Unhappy: <b>Yes</b>. Pleased: <b>No</b>. Outright: <b>Yes</b>. About: <b>Formatting</b>.</p>
+      <p>Seems: <b>Unhappy</b>. Outright: <b>Yes</b>. About: <b>Formatting</b>.</p>
       <div class="quote">Agent: I'm so sorry about the missed connection, that sounds exhausting. Let's get you sorted out.
 Customer: Thank you, that means a lot. My booking code is QX7Z2L.</div>
-      <p>Unhappy: <b>No</b>. Pleased: <b>Yes</b> (warm thanks for how they were treated). Outright: <b>No</b>. About: <b>Empathy</b>.</p>
+      <p>Seems: <b>Pleased</b> (warm thanks for how they were treated). About: <b>Empathy</b>.</p>
       <div class="quote">Agent: Your seat is 14C on the 7:40 departure.
 Customer: Got it. Can I also check the meal options?</div>
-      <p>Unhappy: <b>No</b>. Pleased: <b>No</b>. Outright: <b>No</b>. About: <b>No signal</b>.</p></div>
+      <p>Seems: <b>Neutral</b> (plain cooperation). No further questions.</p></div>
     ${guide(false)}
     <div class="actions"><button class="ghost" id="back">Back</button><button class="primary" id="next">Start Part 2</button></div></section>`));
   app.querySelector("#back").addEventListener("click", () => go(-1));
@@ -373,28 +373,39 @@ function renderB(id) {
   const node = el(`<section class="card"><span class="eyebrow">Reply ${pos} of ${group().B.length}</span>
     <div class="msg agent"><span class="who"><b>Agent</b></span>${md(it.agent)}</div>
     <div class="msg user"><span class="who">Customer</span>${md(it.user)}</div>
-    <div class="q" id="q1"><label class="title">1. Does the customer seem <b>unhappy</b> with <i>how</i> the agent communicated or behaved?</label>
-      <span class="hint">Ignores part of it, re-asks, asks for a different form, goes short or cold, or says so. Feelings about the situation itself don't count.</span></div>
-    <div class="q" id="q1b"><label class="title">2. Does the customer seem <b>pleased</b> with <i>how</i> the agent communicated or behaved?</label>
-      <span class="hint">Warmer tone, thanks them for how it was handled, engages readily, or says what they liked. Plain cooperation (“Sure, it's ABC123.”) is No.</span></div>
-    <div class="q" id="q2"><label class="title">3. Does the customer say outright what the agent should do differently?</label>
+    <div class="q" id="q1"><label class="title">1. How does the customer seem about <i>how</i> the agent communicated or behaved?</label>
+      <span class="hint">Unhappy: ignores part of it, re-asks, asks for a different form, goes short or cold, or says so. Pleased: warmer tone, thanks them for how it was handled, engages readily. Plain cooperation (“Sure, it's ABC123.”) is Neutral. Feelings about the situation itself don't count.</span></div>
+    <div class="q" id="q2" hidden><label class="title">2. Does the customer say outright what the agent should do differently?</label>
       <span class="hint">Yes for an instruction or complaint about how the agent communicates (“no bullet points please”). A question like “so is it free or not?” or a change in tone is only a hint, so answer No.</span></div>
-    <div class="q" id="q3"><label class="title" for="dim-${id}">4. What is the reaction mainly about?</label>
-      <span class="hint">Pick “No signal” if you answered No to both 1 and 2.</span></div>
+    <div class="q" id="q3" hidden><label class="title" for="dim-${id}"><span id="q3num">3</span>. What is the reaction mainly about?</label></div>
     ${guide(false)}
     <div class="actions"><button class="ghost" id="back">Back</button><button class="primary" id="next">Next</button></div></section>`);
   const next = node.querySelector("#next");
-  const complete = () => ans.unhappy && ans.pleased && ans.explicit && ans.dim;
-  const upd = () => next.disabled = !complete();
-  node.querySelector("#q1").append(seg("b1-" + id, [["yes", "Yes"], ["no", "No"]], ans.unhappy, v => { ans.unhappy = v; upd(); }));
-  node.querySelector("#q1b").append(seg("b1b-" + id, [["yes", "Yes"], ["no", "No"]], ans.pleased, v => { ans.pleased = v; upd(); }));
-  node.querySelector("#q2").append(seg("b2-" + id, [["yes", "Yes"], ["no", "No"]], ans.explicit, v => { ans.explicit = v; upd(); }));
+  // One "how does the customer seem" question, stored in the original fields (unhappy / pleased /
+  // explicit / dim) so saved answers, the Sheet and the analysis are unchanged. Neutral fills
+  // explicit = no and dim = none; Pleased fills explicit = no (outright means a correction).
   const sel = el(`<select id="dim-${id}"><option value="">Choose…</option>
     <option value="none">No signal / can't tell</option>
     ${Object.entries(DIM_NAMES).map(([k, v]) => `<option value="${k}">${v} — ${DIM_DESC[k]}</option>`).join("")}
     <option value="task">The task itself — the outcome, a fee, a refusal (not how the agent communicated)</option></select>`);
   sel.value = ans.dim || ""; sel.addEventListener("change", () => { ans.dim = sel.value || undefined; upd(); });
-  node.querySelector("#q3").append(sel);
+  const seems = () => ans.unhappy === "yes" ? "unhappy" : ans.pleased === "yes" ? "pleased"
+    : (ans.unhappy === "no" && ans.pleased === "no") ? "neutral" : undefined;
+  const complete = () => ans.unhappy && ans.pleased && ans.explicit && ans.dim;
+  const q2 = node.querySelector("#q2"), q3 = node.querySelector("#q3");
+  const layout = () => { const v = seems();
+    q2.hidden = v !== "unhappy"; q3.hidden = !v || v === "neutral";
+    node.querySelector("#q3num").textContent = v === "unhappy" ? "3" : "2"; };
+  const upd = () => { layout(); next.disabled = !complete(); };
+  node.querySelector("#q1").append(seg("b1-" + id, [["unhappy", "Unhappy"], ["pleased", "Pleased"], ["neutral", "Neutral"]], seems(), v => {
+    if (v !== seems()) { ans.explicit = undefined; ans.dim = undefined; sel.value = "";
+      q2.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", "false")); }
+    ans.unhappy = v === "unhappy" ? "yes" : "no"; ans.pleased = v === "pleased" ? "yes" : "no";
+    if (v === "pleased") ans.explicit = "no";
+    if (v === "neutral") { ans.explicit = "no"; ans.dim = "none"; }
+    upd(); }));
+  q2.append(seg("b2-" + id, [["yes", "Yes"], ["no", "No"]], ans.explicit, v => { ans.explicit = v; upd(); }));
+  q3.append(sel);
   node.querySelector("#back").addEventListener("click", () => go(-1));
   next.addEventListener("click", () => { if (complete()) go(1); });
   upd(); app.append(node);
