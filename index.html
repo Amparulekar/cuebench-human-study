@@ -320,7 +320,7 @@ function renderIntroB() {
         <ul class="plain">
           <li><b>ignore part of the message</b> and answer only the bit it needs;</li>
           <li><b>re-ask or rephrase</b> as if the answer didn't land;</li>
-          <li><b>ask for something in a different form</b> (“so is it free or not?” after a long explanation);</li>
+          <li><b>ask for something in a different form</b> (“so is it free or not?” or “can you just tell me the total?” after a long explanation);</li>
           <li><b>turn short, cold or flat</b>;</li>
           <li><b>say outright</b> what to change (“no need to explain all the rules”).</li>
         </ul></div>
@@ -377,7 +377,7 @@ function renderB(id) {
     <div class="q" id="q1"><label class="title">1. How does the customer seem about <i>how</i> the agent communicated or behaved?</label>
       <span class="hint">Unhappy: ignores part of it, re-asks, asks for a different form, goes short or cold, or says so. Pleased: warmer tone, thanks them for how it was handled, engages readily. Plain cooperation (“Sure, it's ABC123.”) is Neutral. Feelings about the situation itself don't count.</span></div>
     <div class="q" id="q2" hidden><label class="title">2. Does the customer say outright what the agent should do differently?</label>
-      <span class="hint">Yes for an instruction or complaint about how the agent communicates (“no bullet points please”). A question like “so is it free or not?” or a change in tone is only a hint, so answer No.</span></div>
+      <span class="hint">Yes for an instruction or complaint about how the agent communicates (“no bullet points please”). A question like “so is it free or not?” or “can you just tell me the total?” or a change in tone is only a hint, so answer No.</span></div>
     <div class="q" id="q3" hidden><label class="title" for="dim-${id}">3. What is the reaction mainly about?</label></div>
     ${guide(false)}
     <div class="actions"><button class="ghost" id="back">Back</button><button class="primary" id="next">Next</button></div></section>`);
