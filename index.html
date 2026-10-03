@@ -492,10 +492,11 @@ function renderIntroD() {
   app.append(el(`<section class="card">
     <span class="eyebrow">Part 4 of 4 · 2 comparisons</span><h2>Which memory is better?</h2>
     <p>After five chats with the same customer, two versions of the agent kept different kinds of memory about them.
-      You'll see both, labelled <b>Memory A</b> and <b>Memory B</b>. Read both, answer one question, then reveal the
+      You'll see both, labelled <b>Memory A</b> and <b>Memory B</b>. Skim both, answer one question, then reveal the
       customer's real profile and answer one more.</p>
     <ul class="plain">
-      <li><b>Before the reveal:</b> if you were the agent talking to this customer next, which memory would you rather rely on?</li>
+      <li><b>Before the reveal:</b> which memory <b>format</b> is more informative and insightful? You don't need to read
+        every line; skim how each one is organised and what kind of information it gives you.</li>
       <li><b>After the reveal:</b> which memory gets more of the real profile right, with fewer wrong claims?</li>
     </ul>
     <p><b>How to judge accuracy.</b> Go through each memory's claims about the customer. A claim is <b>wrong</b> if it
@@ -532,7 +533,8 @@ function renderD(id) {
         <div class="memcol"><h2>Memory B</h2>${renderMemory(it.B)}</div>
       </div></section>
     <section class="card">
-      <div class="q" id="d1"><label class="title">1. If you were the agent talking to this customer next, which memory would you rather rely on?</label></div>
+      <div class="q" id="d1"><label class="title">1. Which memory format is more informative and insightful?</label>
+        <span class="hint">No need to read every line. Skim how each is organised and what kind of information it gives you.</span></div>
       <div class="actions" id="revealRow"><button class="primary" id="reveal">Show the customer's real profile</button>
         <span class="hint" id="revealHint">Answer 1 first.</span></div>
       <div class="q" id="d2" hidden><label class="title">2. Which memory gets more of the real profile right, with fewer wrong claims?</label>
