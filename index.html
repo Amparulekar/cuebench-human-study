@@ -425,15 +425,16 @@ function renderIntroC() {
       you will answer two questions first, then reveal who the customer really is and answer one more.</p>
     <ul class="plain">
       <li><b>Does the evidence back up the note?</b> Judge only whether the quoted evidence supports the claim, not whether you agree with it.</li>
-      <li><b>What is the note about?</b> <i>How the customer talks</i> is their own manner, whatever the agent does
-        (“writes in short fragments”). <i>How they want the agent to behave</i> is a preference about the agent
-        (“got curt after a long explanation, so likely wants shorter answers”).</li>
+      <li><b>Natural manner or reaction?</b> Is the note about how the customer <i>naturally</i> talks, whatever the
+        agent does (“writes in short fragments”)? Or about how they <i>reacted</i> to something the agent did
+        (“got curt after a long explanation”)?</li>
       <li><b>After the reveal:</b> pick the item in the customer's real profile that the note captures, or say it gets one backwards, or matches none.</li>
     </ul>
     <div class="example"><span class="eyebrow">Example</span>
       <div class="quote">Note: The customer wants the agent to recommend one option rather than list several.
 Evidence: Session 2: after a table of four flights, the customer asked “which is best?”</div>
-      <p>Evidence backs it up: <b>Yes</b>. About: <b>How they want the agent to behave</b>. If the real profile includes
+      <p>Evidence backs it up: <b>Yes</b>. Natural manner or reaction: <b>A reaction to the agent</b> (they asked after
+        being shown a table). If the real profile includes
         “gives a single best recommendation”, pick that. If it says “presents multiple options to choose from”, pick <b>Gets one of these backwards</b>.</p></div>
     <div class="actions"><button class="ghost" id="back">Back</button><button class="primary" id="next">Start Part 3</button></div></section>`));
   app.querySelector("#back").addEventListener("click", () => go(-1));
@@ -448,7 +449,7 @@ function renderC(id) {
     <div class="q"><span class="title">Evidence the agent cited</span>
       <ul class="plain">${it.evidence.map(e => `<li>${md(e)}</li>`).join("")}</ul></div>
     <div class="q" id="c1"><label class="title">1. Does the evidence back up the note?</label></div>
-    <div class="q" id="c2"><label class="title">2. This note is mainly about…</label></div>
+    <div class="q" id="c2"><label class="title">2. Is this about the customer's natural way of talking, or a reaction to something the agent did?</label></div>
     <div class="actions" id="revealRow"><button class="primary" id="reveal">Show the customer's real profile</button>
       <span class="hint" id="revealHint">Answer 1 and 2 first.</span></div>
     <div class="q" id="c3" hidden>
@@ -462,8 +463,8 @@ function renderC(id) {
   const upd = () => { next.disabled = !complete(); reveal.disabled = !blindDone() || ans.revealed;
     node.querySelector("#revealHint").hidden = blindDone() || ans.revealed; };
   const c1 = seg("c1-" + id, [["yes", "Yes"], ["partly", "Partly"], ["no", "No"]], ans.support, v => { if (!ans.revealed) { ans.support = v; upd(); } });
-  const c2 = seg("c2-" + id, [["style", "How the customer talks"], ["pref", "How they want the agent to behave"],
-    ["other", "Neither (task details, too vague)"]], ans.kind, v => { if (!ans.revealed) { ans.kind = v; upd(); } });
+  const c2 = seg("c2-" + id, [["style", "Their natural way of talking"], ["pref", "A reaction to the agent"],
+    ["other", "Neither / too vague"]], ans.kind, v => { if (!ans.revealed) { ans.kind = v; upd(); } });
   node.querySelector("#c1").append(c1); node.querySelector("#c2").append(c2);
   const lockBlind = () => [c1, c2].forEach(w => w.querySelectorAll("button").forEach(b => b.disabled = true));
   const drawProfile = () => {
