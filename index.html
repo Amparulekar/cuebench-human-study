@@ -1,3 +1,10 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+</head>
+<body>
 <title>Customer Service Annotation Study</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,600&display=swap">
@@ -21,6 +28,7 @@
   --ok: #5cc48d; --warn: #e3a06b; --warn-soft: #3a2a1e; color-scheme: dark }
 
 * { box-sizing: border-box }
+[hidden] { display: none !important }
 body { background: var(--bg); color: var(--fg); font: 15px/1.55 var(--body); padding-inline: 16px; padding-block: 0 48px }
 .wrap { max-width: 1120px; margin: 0 auto; display: grid; gap: 20px }
 header.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg);
@@ -377,7 +385,7 @@ function renderB(id) {
       <span class="hint">Unhappy: ignores part of it, re-asks, asks for a different form, goes short or cold, or says so. Pleased: warmer tone, thanks them for how it was handled, engages readily. Plain cooperation (“Sure, it's ABC123.”) is Neutral. Feelings about the situation itself don't count.</span></div>
     <div class="q" id="q2" hidden><label class="title">2. Does the customer say outright what the agent should do differently?</label>
       <span class="hint">Yes for an instruction or complaint about how the agent communicates (“no bullet points please”). A question like “so is it free or not?” or a change in tone is only a hint, so answer No.</span></div>
-    <div class="q" id="q3" hidden><label class="title" for="dim-${id}"><span id="q3num">3</span>. What is the reaction mainly about?</label></div>
+    <div class="q" id="q3" hidden><label class="title" for="dim-${id}">3. What is the reaction mainly about?</label></div>
     ${guide(false)}
     <div class="actions"><button class="ghost" id="back">Back</button><button class="primary" id="next">Next</button></div></section>`);
   const next = node.querySelector("#next");
@@ -395,7 +403,7 @@ function renderB(id) {
   const q2 = node.querySelector("#q2"), q3 = node.querySelector("#q3");
   const layout = () => { const v = seems();
     q2.hidden = v !== "unhappy"; q3.hidden = !v || v === "neutral";
-    node.querySelector("#q3num").textContent = v === "unhappy" ? "3" : "2"; };
+  };
   const upd = () => { layout(); next.disabled = !complete(); };
   node.querySelector("#q1").append(seg("b1-" + id, [["unhappy", "Unhappy"], ["pleased", "Pleased"], ["neutral", "Neutral"]], seems(), v => {
     if (v !== seems()) { ans.explicit = undefined; ans.dim = undefined; sel.value = "";
@@ -587,3 +595,6 @@ function renderDone() {
 
 render();
 </script>
+
+</body>
+</html>
