@@ -1,10 +1,3 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-</head>
-<body>
 <title>Customer Service Annotation Study</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,600&display=swap">
@@ -28,7 +21,7 @@
   --ok: #5cc48d; --warn: #e3a06b; --warn-soft: #3a2a1e; color-scheme: dark }
 
 * { box-sizing: border-box }
-[hidden] { display: none !important }
+#q2[hidden], #q3[hidden] { display: none !important }   /* Part 2 follow-up questions only */
 body { background: var(--bg); color: var(--fg); font: 15px/1.55 var(--body); padding-inline: 16px; padding-block: 0 48px }
 .wrap { max-width: 1120px; margin: 0 auto; display: grid; gap: 20px }
 header.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg);
@@ -595,6 +588,3 @@ function renderDone() {
 
 render();
 </script>
-
-</body>
-</html>
